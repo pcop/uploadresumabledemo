@@ -1,0 +1,59 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" ClientIDMode="Static" EnableViewState="false" %>
+
+<!DOCTYPE html>
+
+<html lang="zh-tw">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=5,width=device-width">
+    <title> HTML5 續傳測試 </title>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/alertifyjs/1.7.0/css/alertify.min.css" />
+    <asp:ContentPlaceHolder ID="head" runat="server"/>
+</head>
+<body>
+    <div class="container container-fluid">
+        <asp:ContentPlaceHolder ID="ContentBody" runat="server" />
+    </div>
+    <script src="//cdn.jsdelivr.net/g/jquery@2.2.4,bootstrap@3.3.7,jquery.blockui@2.70.0,alertifyjs@1.7.0"></script>
+    <script>
+        var UICtrl = {
+            blockUI: function (_msg) {
+                $.blockUI({
+                    css: {
+                        'font-size': '150%',
+                        border: 'none',
+                        padding: '15px',
+                        backgroundColor: '#000',
+                        '-webkit-border-radius': '10px',
+                        '-moz-border-radius': '10px',
+                        'border-radius': '10px',
+                        opacity: .8,
+                        color: '#fff'
+                    },
+                    message: _msg || "資料處理中，請稍後...<div class='ajax-loader'><div>"
+                });
+            },
+            unblockUI: function () {
+                $.unblockUI();
+            },
+            ShowErr: function (Mesages, wait) {
+                if (typeof wait === "undefined") wait = 2;
+                for (var i in Mesages) alertify.notify(Mesages[i], "error", wait);
+            },
+            ShowMsg: function (Mesages, wait) {
+                if (typeof wait === "undefined") wait = 2;
+                for (var i in Mesages) alertify.notify(Mesages[i], "success", wait);
+            },
+            confirm: function (message, onok, oncancel) {
+                alertify.confirm('注意!!!', message,
+                    function () { if (onok) onok(); },
+                    function () { if (oncancel) oncancel(); }
+                ).set('labels', { ok: '確定', cancel: '取消' });
+            }
+        };
+    </script>
+    <asp:ContentPlaceHolder ID="ContentFoot" runat="server" />
+</body>
+</html>
